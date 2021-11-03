@@ -120,3 +120,4 @@ class Create(APIView):
 
         except User.DoesNotExist:
             return Response({'error': 'Invalid user_id list'}, status=status.HTTP_404_NOT_FOUND)
+
