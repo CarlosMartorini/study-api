@@ -54,7 +54,7 @@ Local server URL: http://127.0.0.1:8000/
 - POST api/accounts/
 - Status HTTP 201 CREATED
 
-```JSON
+```json
 {
   "username": "John",
   "password": "123456",
@@ -64,7 +64,7 @@ Local server URL: http://127.0.0.1:8000/
 ```
 - Expected response
 
-```JSON
+```json
 {
   "id": 1,
   "username": "John",
@@ -76,7 +76,7 @@ Local server URL: http://127.0.0.1:8000/
 - If there is an attempt to create a user who is already registered.
 - Status HTTP 409 CONFLICT.
 
-```JSON
+```json
 {
     "error": "User already exists!"
 }
@@ -88,7 +88,7 @@ Local server URL: http://127.0.0.1:8000/
 - POST api/login/
 - Status HTTP 200 OK
 
-```JSON
+```json
 {
   "username": "John",
   "password": "123456"
@@ -97,7 +97,7 @@ Local server URL: http://127.0.0.1:8000/
 
 - Expected response
 
-```JSON
+```json
 {
   "token": "dfd384673e9127213de6116ca33257ce4aa203cf"
 }
@@ -106,7 +106,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to give wrong information
 - Status HTTP 401 UNAUTHORIZED
 
-```JSON
+```json
 {
     "error": "Username or password may be wrong!"
 }
@@ -115,7 +115,7 @@ Local server URL: http://127.0.0.1:8000/
 - If any information is missing
 - Status HTTP 406 NOT ACCEPTABLE
 
-```JSON
+```json
 {
     "error": "username it's missing"
 }
@@ -126,12 +126,12 @@ Local server URL: http://127.0.0.1:8000/
 - All endpoints that require the use of an access token must respond as follows if an invalid token is entered
 - Status HTTP 401 UNAUTHORIZED
 
-```JSON
+```json
 // REQUEST
 // Header -> Authorization: Token <invalid-token>
 ```
 
-```JSON
+```json
 {
     "detail": "Invalid token."
 }
@@ -140,12 +140,12 @@ Local server URL: http://127.0.0.1:8000/
 - If a valid token is entered but does not meet the minimum permission requirements
 - Status HTTP 403 FORBIDDEN
 
-```JSON
+```json
 // REQUEST
 // Header -> Authorization: Token <forbidden-token>
 ```
 
-```JSON
+```json
 {
     "detail": "You do not have permission to perform this action."
 }
@@ -156,7 +156,7 @@ Local server URL: http://127.0.0.1:8000/
 - GET api/courses/< int:course_id >/
 - Status HTTP 200 OK
 
-```JSON
+```json
 [
   {
     "id": 1,
@@ -184,7 +184,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to access a non-existent course
 - Status HTTP 404 NOT FOUND
 
-```JSON
+```json
 {
     "error": "invalid course_id"
 }
@@ -195,7 +195,7 @@ Local server URL: http://127.0.0.1:8000/
 - POST api/courses/
 - Status HTTP 201 CREATED
 
-```JSON
+```json
 {
   "name": "Flask"
 }
@@ -203,7 +203,7 @@ Local server URL: http://127.0.0.1:8000/
 
 - Expected response
 
-```JSON
+```json
 {
   "id": 1,
   "name": "Flask",
@@ -214,7 +214,7 @@ Local server URL: http://127.0.0.1:8000/
 - If course name already exists
 - Status HTTP 400 BAD REQUEST
 
-```JSON
+```json
 {
     "error": "Course with this name already exists"
 }
@@ -223,7 +223,7 @@ Local server URL: http://127.0.0.1:8000/
 - If any information is missing
 - Status HTTP 406 NOT ACCEPTABLE
 
-```JSON
+```json
 {
     "error": "name it's missing"
 }
@@ -234,7 +234,7 @@ Local server URL: http://127.0.0.1:8000/
 - PUT api/courses/< int:course_id >/
 - Status HTTP 200 OK
 
-```JSON
+```json
 {
   "name": "Django"
 }
@@ -242,7 +242,7 @@ Local server URL: http://127.0.0.1:8000/
 
 - Expected response
 
-```JSON
+```json
 {
   "id": 1,
   "name": "Django",
@@ -253,7 +253,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to update a non-existent course
 - Status HTTP 404 NOT FOUND
 
-```JSON
+```json
 {
     "error": "Course not founded!"
 }
@@ -262,7 +262,7 @@ Local server URL: http://127.0.0.1:8000/
 - If any information is missing
 - Status HTTP 406 NOT ACCEPTABLE
 
-```JSON
+```json
 {
     "error": "course it's missing"
 }
@@ -271,7 +271,7 @@ Local server URL: http://127.0.0.1:8000/
 - If course name already exists
 - Status HTTP 400 BAD REQUEST
 
-```JSON
+```json
 {
     "error": "Course with this name already exists"
 }
@@ -282,7 +282,7 @@ Local server URL: http://127.0.0.1:8000/
 - PUT api/courses/< int:course_id >/registrations/
 - Status HTTP 200 OK
 
-```JSON
+```json
 {
   "user_ids": [1, 2, 3]
 }
@@ -290,7 +290,7 @@ Local server URL: http://127.0.0.1:8000/
 
 - Expected response
 
-```JSON
+```json
 {
   "id": 1,
   "name": "Django",
@@ -314,7 +314,7 @@ Local server URL: http://127.0.0.1:8000/
 - If type user_ids is not a list
 - Status HTTP 400 BAD REQUEST
 
-```JSON
+```json
 {
     "error": "user_ids is not a list"
 }
@@ -323,7 +323,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to pass an id that is a facilitator or instructor
 - Status HTTP 400 BAD REQUEST
 
-```JSON
+```json
 {
     "error": "Only students can be enrolled in the course."
 }
@@ -332,7 +332,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to update a non-existent course
 - Status HTTP 404 NOT FOUND
 
-```JSON
+```json
 {
     "error": "invalid course_id"
 }
@@ -341,7 +341,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to pass a user_id that doesn't exist
 - Status HTTP 404 NOT FOUND
 
-```JSON
+```json
 {
     "error": "invalid user_id list"
 }
@@ -352,7 +352,7 @@ Local server URL: http://127.0.0.1:8000/
 - PUT api/courses/< int:course_id >/registrations/
 - Status HTTP 200 OK
 
-```JSON
+```json
 [
   {
     "id": 1,
@@ -384,14 +384,14 @@ Local server URL: http://127.0.0.1:8000/
 
 - Expected response
 
-```JSON
+```json
 // RESPONSE STATUS -> HTTP 204 NO CONTENT
 ```
 
 - If you try to delete a non-existent course
 - Status HTTP 404 NOT FOUND
 
-```JSON
+```json
 {
     "error": "Course not founded!"
 }
@@ -402,7 +402,7 @@ Local server URL: http://127.0.0.1:8000/
 - POST api/activities/
 - Status HTTP 201 CREATED
 
-```JSON
+```json
 {
   "title": "Kenzie Pet",
   "points": 10
@@ -411,7 +411,7 @@ Local server URL: http://127.0.0.1:8000/
 
 - Expected response
 
-```JSON
+```json
 {
     "id": 1,
     "title": "Kenzie Pet",
@@ -423,7 +423,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to create an existent activity
 - Status HTTP 400 BAD REQUEST
 
-```JSON
+```json
 {
     "error": "Activity with this name already exists"
 }
@@ -434,7 +434,7 @@ Local server URL: http://127.0.0.1:8000/
 - GET api/activities/
 - Status HTTP 200 OK
 
-```JSON
+```json
 [
   {
     "id": 1,
@@ -472,7 +472,7 @@ Local server URL: http://127.0.0.1:8000/
 - PUT api/activities/< int:activity_id >/
 - Status HTTP 200 OK
 
-```JSON
+```json
 {
   "title": "Kenzie Pet",
   "points": 10
@@ -481,7 +481,7 @@ Local server URL: http://127.0.0.1:8000/
 
 - Expected response
 
-```JSON
+```json
 {
   "id": 1,
   "title": "Kenzie Pet",
@@ -493,7 +493,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to update an activity that has a submission
 - Status HTTP 400 BAD REQUEST
 
-```JSON
+```json
 {
     "error": "You can not change an Activity with submissions"
 }
@@ -502,7 +502,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to update an nonexistent activity
 - Status HTTP 404 NOT FOUND
 
-```JSON
+```json
 {
     "error": "Invalid activity_id"
 }
@@ -511,7 +511,7 @@ Local server URL: http://127.0.0.1:8000/
 - If any information is missing
 - Status HTTP 406 NOT ACCEPTABLE
 
-```JSON
+```json
 {
     "error": "title it's missing"
 }
@@ -520,7 +520,7 @@ Local server URL: http://127.0.0.1:8000/
 - If the activity already exists
 - Status HTTP 406 NOT ACCEPTABLE
 
-```JSON
+```json
 {
     "error": "Activity with this name already exists"
 }
@@ -531,7 +531,7 @@ Local server URL: http://127.0.0.1:8000/
 - PUT api/activities/< int:activity_id >/submissions/
 - Status HTTP 201 CREATED
 
-```JSON
+```json
 {
   "grade": 10, // Optional
   "repo": "http://gitlab.com/kenzie_pet"
@@ -540,7 +540,7 @@ Local server URL: http://127.0.0.1:8000/
 
 - Expected response
 
-```JSON
+```json
 {
   "id": 7,
   "grade": null,
@@ -553,7 +553,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to pass an id that is a facilitator or instructor
 - Status HTTP 403 FORBIDDEN
 
-```JSON
+```json
 {
     "error": "Only students can apply submissions"
 }
@@ -562,7 +562,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to apply an nonexistent activity
 - Status HTTP 404 NOT FOUND
 
-```JSON
+```json
 {
     "error": "Invalid activity_id"
 }
@@ -573,7 +573,7 @@ Local server URL: http://127.0.0.1:8000/
 - PUT api/activities/< int:activity_id >/submissions/
 - Status HTTP 200 OK
 
-```JSON
+```json
 {
   "grade": 10
 }
@@ -594,7 +594,7 @@ Local server URL: http://127.0.0.1:8000/
 - If you try to apply an nonexistent submission
 - Status HTTP 404 NOT FOUND
 
-```JSON
+```json
 {
     "error": "Invalid submission_id"
 }
@@ -603,7 +603,7 @@ Local server URL: http://127.0.0.1:8000/
 - If any information is missing
 - Status HTTP 406 NOT ACCEPTABLE
 
-```JSON
+```json
 {
     "error": "grade it's missing"
 }
@@ -614,12 +614,12 @@ Local server URL: http://127.0.0.1:8000/
 - GET api/submissions/
 - Status HTTP 200 OK
 
-```JSON
+```json
 //REQUEST
 //Header -> Authorization: Token <token-student>
 ```
 
-```JSON
+```json
 [
   {
     "id": 2,
@@ -638,12 +638,12 @@ Local server URL: http://127.0.0.1:8000/
 ]
 ```
 
-```JSON
+```json
 //REQUEST
 //Header -> Authorization: Token <token-facilitator or token-instructor>
 ```
 
-```JSON
+```json
 [
     {
         "id": 1,
