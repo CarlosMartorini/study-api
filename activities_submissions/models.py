@@ -6,7 +6,7 @@ class Activity(models.Model):
     title = models.CharField(max_length=255, unique=True)
     point = models.IntegerField()
 
-    submissions = models.ManyToManyField(User, related_name='activities', through='activities.Submission')
+    submissions = models.ManyToManyField(User, related_name='activities', through='activities_submissions.Submission')
 
 
 class Submission(models.Model):
