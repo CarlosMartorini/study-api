@@ -100,13 +100,15 @@ class Create(APIView):
             course = Course.objects.get(id=course_id)
             user_ids = data['user_ids']
 
-            print(f"This is USER_IDS {user_ids}")
+            if type(user_ids) != list:
+                return Response({'errors': 'user_ids is not a list'}, status=status.HTTP_400_BAD_REQUEST)
 
             course.users.set([])
 
             for item in user_ids:
-                print(f"This is ITEM {item}")
                 user = User.objects.get(id=item)
+                if not user:
+                    return Response({'errors': 'invalid user_id list'})
                 if user.is_superuser or user.is_staff:
                     return Response({'errors': 'Only students can be enrolled in the course.'}, status=status.HTTP_400_BAD_REQUEST)
                 course.users.add(user)

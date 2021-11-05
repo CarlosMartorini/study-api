@@ -64,54 +64,12 @@ test_instructor_can_register_students_on_course (test_api.TestCourseView) ... ok
 test_only_students_can_be_enrolled_in_the_course (test_api.TestCourseView) ... ok
 test_student_or_facilitator_cannot_delete_courses (test_api.TestCourseView) ... ok
 test_update_course_name (test_api.TestCourseView) ... ok
-test_whether_a_list_is_entered_to_enroll_students_in_the_course (test_api.TestCourseView) ... ERROR
-
-======================================================================
-ERROR: test_whether_a_list_is_entered_to_enroll_students_in_the_course (test_api.TestCourseView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/martorini/projects/kanvas/test_api.py", line 437, in test_whether_a_list_is_entered_to_enroll_students_in_the_course
-    response = self.client.put(
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/rest_framework/test.py", line 303, in put
-    response = super().put(
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/rest_framework/test.py", line 213, in put
-    return self.generic('PUT', path, data, content_type, **extra)
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/rest_framework/test.py", line 233, in generic
-    return super().generic(
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/django/test/client.py", line 473, in generic
-    return self.request(**r)
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/rest_framework/test.py", line 285, in request
-    return super().request(**kwargs)
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/rest_framework/test.py", line 237, in request
-    request = super().request(**kwargs)
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/django/test/client.py", line 719, in request
-    self.check_exception(response)
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/django/test/client.py", line 580, in check_exception
-    raise exc_value
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/django/core/handlers/exception.py", line 47, in inner
-    response = get_response(request)
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/django/core/handlers/base.py", line 181, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
-    return view_func(*args, **kwargs)
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/django/views/generic/base.py", line 70, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/martorini/projects/kanvas/venv/lib/python3.9/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/martorini/projects/kanvas/courses/views.py", line 107, in put
-    for item in user_ids:
-TypeError: 'int' object is not iterable
+test_whether_a_list_is_entered_to_enroll_students_in_the_course (test_api.TestCourseView) ... ok
 
 ----------------------------------------------------------------------
-Ran 35 tests in 14.282s
+Ran 35 tests in 14.154s
 
-FAILED (errors=1)
+OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 This is USER_IDS [3, 4]
 This is ITEM 3
