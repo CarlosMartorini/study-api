@@ -12,8 +12,8 @@ from django.db.utils import IntegrityError
 
 
 class View(APIView):
-    auth = [TokenAuthentication]
-    permission = [Facilitator]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [Facilitator]
 
 
     def post(self, request):
@@ -27,13 +27,14 @@ class View(APIView):
                 points=points
             )
             serialized = ActivitySerializer(activity)
-            submissions = serialized.data.pop('submission_set')
-            serialized.data['submissions'] = submissions
+            output_serialized = {**serialized.data}
+            submissions = output_serialized.pop('submission_set')
+            output_serialized['submissions'] = submissions
 
-            return Response(serialized.data, status=status.HTTP_201_CREATED)
+            return Response(output_serialized, status=status.HTTP_201_CREATED)
         
         except IntegrityError:
-            return Response({'error': 'This activity already exists!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Activity with this name already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
 
     def get(self, request):
@@ -50,15 +51,15 @@ class View(APIView):
         for item in serialized.data:
             object = {**item}
             submissions = object.pop('submission_set')
-            object['submission'] = submissions
+            object['submissions'] = submissions
             list.append(object)
         
         return Response(list, status=status.HTTP_200_OK)
 
 
 class ViewById(APIView):
-    auth = [TokenAuthentication]
-    permission = [Facilitator]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [Facilitator]
 
 
     def put(self, request, activity_id):
@@ -77,19 +78,23 @@ class ViewById(APIView):
             activity.save()
             
             serialized = ActivitySerializer(activity)
-            submissions = serialized.data.pop('submission_set')
-            serialized.data['submissions'] = submissions
+            output_serialized = {**serialized.data}
+            submissions = output_serialized.pop('submission_set')
+            output_serialized['submissions'] = submissions
 
-            return Response(serialized.data, status=status.HTTP_200_OK)
+            return Response(output_serialized, status=status.HTTP_200_OK)
         
         except Activity.DoesNotExist:
             return Response({'error': 'Invalid activity_id'}, status=status.HTTP_404_NOT_FOUND)
         
         except KeyError:
             return Response({'errors': f"{str(KeyError)} it's missing"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        
+        except IntegrityError:
+            return Response({'error': 'Activity with this name already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-    def get(self, activity_id):
+    def get(self, request, activity_id):
         try:
             activity = Activity.objects.get(id=activity_id)
             serialized = ActivitySerializer(activity)
@@ -100,7 +105,7 @@ class ViewById(APIView):
             return Response({'error': 'Invalid activity_id'}, status=status.HTTP_404_NOT_FOUND)
     
 
-    def delete(self, activity_id):
+    def delete(self, request, activity_id):
         try:
             activity = Activity.objects.get(id=activity_id)
             activity.delete()
@@ -112,8 +117,8 @@ class ViewById(APIView):
 
 
 class Create(APIView):
-    auth = [TokenAuthentication]
-    permission = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
     def post(self, request, activity_id):
@@ -124,7 +129,7 @@ class Create(APIView):
             activity = Activity.objects.get(id=activity_id)
             
             if user.is_superuser or user.is_staff:
-                return Response({'error': 'Only students can apply submissions'}, status=status.HTTP_403_FORBIDDEN)
+                return Response({'errors': 'Only students can apply submissions'}, status=status.HTTP_403_FORBIDDEN)
             repo = data['repo']
             submission = Submission.objects.create(
                 user_id=user.id, 
@@ -147,8 +152,8 @@ class Create(APIView):
 
 
 class SubmissionView(APIView):
-    auth = [TokenAuthentication]
-    permission = [IsAuthenticated, Facilitator]
+    permission_classes = [IsAuthenticated, Facilitator]
+    authentication_classes = [TokenAuthentication]
 
 
     def put(self, request, submission_id):
@@ -172,8 +177,8 @@ class SubmissionView(APIView):
 
 
 class ListSubmissions(APIView):
-    auth = [TokenAuthentication]
-    permission = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
     def get(self, request):

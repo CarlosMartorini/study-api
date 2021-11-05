@@ -4,13 +4,13 @@ from django.contrib.auth.models import User
 
 class Activity(models.Model):
     title = models.CharField(max_length=255, unique=True)
-    point = models.IntegerField()
+    points = models.IntegerField()
 
     submissions = models.ManyToManyField(User, related_name='activities', through='activities_submissions.Submission')
 
 
 class Submission(models.Model):
-    grape = models.IntegerField(null=True)
+    grade = models.IntegerField(null=True)
     repo = models.TextField()
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)

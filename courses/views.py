@@ -11,8 +11,8 @@ from django.db.utils import IntegrityError
 
 
 class View(APIView):
-    auth = [TokenAuthentication]
-    permission = [Instructor]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [Instructor]
 
 
     def get(self, request):
@@ -33,18 +33,18 @@ class View(APIView):
             return Response(serialized.data, status=status.HTTP_201_CREATED)
         
         except IntegrityError:
-            return Response({'error': 'This course already exists!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Course with this name already exists'}, status=status.HTTP_400_BAD_REQUEST)
         
         except KeyError:
             return Response({'error': f"{str(KeyError)} it's missing!"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 class ViewById(APIView):
-    auth = [TokenAuthentication]
-    permission = [Instructor]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [Instructor]
 
 
-    def get(self, course_id):
+    def get(self, request, course_id):
         try:
             course = Course.objects.get(id=course_id)
             serialized = CourseSerializer(course)
@@ -52,7 +52,7 @@ class ViewById(APIView):
             return Response(serialized.data, status=status.HTTP_200_OK)
         
         except Course.DoesNotExist:
-            return Response({'error': 'Course not founded!'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'errors': 'invalid course_id'}, status=status.HTTP_404_NOT_FOUND)
 
     
     def put(self, request, course_id):
@@ -74,10 +74,10 @@ class ViewById(APIView):
             return Response({'error', f"{str(KeyError)} it's missing"}, status=status.HTTP_406_NOT_ACCEPTABLE)
         
         except IntegrityError:
-            return Response({'error': 'This course already exists!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Course with this name already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-    def delete(self, course_id):
+    def delete(self, request, course_id):
         try:
             course = Course.objects.get(id=course_id)
             course.delete()
@@ -89,8 +89,8 @@ class ViewById(APIView):
 
 
 class Create(APIView):
-    auth = [TokenAuthentication]
-    permission = [Instructor]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [Instructor]
 
 
     def put(self, request, course_id):
@@ -100,12 +100,15 @@ class Create(APIView):
             course = Course.objects.get(id=course_id)
             user_ids = data['user_ids']
 
+            print(f"This is USER_IDS {user_ids}")
+
             course.users.set([])
 
-            for id in user_ids:
-                user = User.objects.get(id=id)
+            for item in user_ids:
+                print(f"This is ITEM {item}")
+                user = User.objects.get(id=item)
                 if user.is_superuser or user.is_staff:
-                    return Response({'erros': 'Only students can be enrolled in the course.'}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({'errors': 'Only students can be enrolled in the course.'}, status=status.HTTP_400_BAD_REQUEST)
                 course.users.add(user)
             
             course.save()
@@ -114,8 +117,8 @@ class Create(APIView):
             return Response(serialized.data, status=status.HTTP_200_OK)
         
         except Course.DoesNotExist:
-            return Response({'error': 'Invalid course_id'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'errors': 'invalid course_id'}, status=status.HTTP_404_NOT_FOUND)
 
         except User.DoesNotExist:
-            return Response({'error': 'Invalid user_id list'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'errors': 'Only students can be enrolled in the course.'}, status=status.HTTP_404_NOT_FOUND)
 

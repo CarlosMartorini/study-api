@@ -1,10 +1,9 @@
 from rest_framework import serializers
-from users.serializers import UsersSerializer
 
 
 class SubmissionSerializer(serializers.Serializer):
     id = serializers.IntegerField()
-    grape = serializers.IntegerField()
+    grade = serializers.IntegerField()
     repo = serializers.CharField()
     
     user_id = serializers.IntegerField()
