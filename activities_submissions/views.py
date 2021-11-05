@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from rest_framework.fields import IntegerField
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from users.models import User, Instructor, Facilitator
+from django.contrib.auth.models import User
+from users.permissions import Facilitator
 from .models import Activity, Submission
 from .serializers import SubmissionSerializer, ActivitySerializer
 from rest_framework import status
