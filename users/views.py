@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
-from rest_framework.authentication.models import Token
+from rest_framework.authtoken.models import Token
 from .models import User
 from .serializers import UsersSerializer
 from rest_framework import status
