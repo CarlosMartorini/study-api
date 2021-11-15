@@ -1,4 +1,4 @@
-# Kanvas
+# Study
 
 API developed in Django, for online education system. With it, the user can register people as a student, facilitator and instructor. For each type of person, they will have different forms of access to courses, activities and submissions.
 
